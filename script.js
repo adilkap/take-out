@@ -9,8 +9,8 @@
   const recipientName = cfg.recipientName || "Amna";
   const askerName = cfg.askerName || "Adil";
 
+  const askerMessage = askerName + " is a very lucky guy ;)";
   question.textContent = recipientName + ", can I take you out tonight?";
-  result.textContent = askerName + " is a very lucky guy ;)";
 
   let scale = 1;
   const SHRINK = 0.8; // 20% smaller each click
@@ -18,35 +18,47 @@
   let lastHit = 0; // de-dupe touchstart + the click it also fires
 
   // Move the No button to a random spot fully inside the viewport.
+  // With transform-origin:top-left (set in CSS when .loose), the element's
+  // left/top equal its visible top-left, so we clamp using the scaled size.
   function dodge() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
     const pad = 12;
 
-    // Detach from layout the first time so it can roam freely.
     if (!noBtn.classList.contains("loose")) {
       const rect = noBtn.getBoundingClientRect();
       noBtn.classList.add("loose");
-      noBtn.style.top = rect.top + "px";
       noBtn.style.left = rect.left + "px";
+      noBtn.style.top = rect.top + "px";
       void noBtn.offsetWidth; // reflow so the next move animates
     }
 
-    // getBoundingClientRect reflects the current (scaled) size, so the
-    // clamp below keeps the whole button inside the visible viewport.
-    const rect = noBtn.getBoundingClientRect();
-    const maxLeft = Math.max(pad, vw - rect.width - pad);
-    const maxTop = Math.max(pad, vh - rect.height - pad);
-    const left = pad + Math.random() * (maxLeft - pad);
-    const top = pad + Math.random() * (maxTop - pad);
+    const w = noBtn.offsetWidth * scale;
+    const h = noBtn.offsetHeight * scale;
+    const maxLeft = Math.max(pad, window.innerWidth - w - pad);
+    const maxTop = Math.max(pad, window.innerHeight - h - pad);
+    const left = Math.min(maxLeft, pad + Math.random() * (maxLeft - pad));
+    const top = Math.min(maxTop, pad + Math.random() * (maxTop - pad));
 
     noBtn.style.left = left + "px";
     noBtn.style.top = top + "px";
   }
 
+  function showResult(text) {
+    result.textContent = text;
+    result.hidden = false;
+    requestAnimationFrame(() => result.classList.add("show"));
+  }
+
   function poof() {
     noBtn.classList.add("poof");
-    noBtn.addEventListener("animationend", () => noBtn.remove(), { once: true });
+    noBtn.addEventListener(
+      "animationend",
+      () => {
+        noBtn.remove();
+        // Cheeky placeholder until she says yes.
+        if (!result.classList.contains("show")) showResult("hehe");
+      },
+      { once: true }
+    );
   }
 
   function onNo(e) {
@@ -74,9 +86,7 @@
   });
 
   function celebrate() {
-    result.hidden = false;
-    // next frame so the transition runs
-    requestAnimationFrame(() => result.classList.add("show"));
+    showResult(askerMessage);
 
     if (typeof confetti !== "function") return;
 
