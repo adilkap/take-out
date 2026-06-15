@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+
+  <title>I have a question</title>
+
+  <!-- Link preview (iMessage / social) -->
+  <meta name="description" content="I have a question for you 💕" />
+  <meta property="og:title" content="I have a question" />
+  <meta property="og:description" content="I have a question for you 💕" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="I have a question" />
+  <meta name="twitter:description" content="I have a question for you 💕" />
+
+  <meta name="theme-color" content="#ffd9e8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐻</text></svg>" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <!-- Hugging bears + heart -->
+    <div class="bears" aria-hidden="true">
+      <span class="heart">💗</span>
+      <div class="bear-row">
+        <span class="bear bear-left">🐻</span>
+        <span class="bear bear-right">🐻</span>
+      </div>
+    </div>
+
+    <h1 class="question">Amna, can I take you out tonight?</h1>
+
+    <div class="buttons">
+      <button id="yes" class="btn btn-yes">Yes</button>
+      <button id="no" class="btn btn-no">No</button>
+    </div>
+
+    <p id="result" class="result" hidden>Adil is a very lucky guy ;)</p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
