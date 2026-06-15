@@ -14,24 +14,29 @@
 
   let scale = 1;
   const SHRINK = 0.8; // 20% smaller each click
-  const MIN_SCALE = 0.28; // below this -> poof
+  const MIN_SCALE = 0.30; // below this -> poof (takes ~6 taps)
+  let lastHit = 0; // de-dupe touchstart + the click it also fires
 
   // Move the No button to a random spot fully inside the viewport.
   function dodge() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const pad = 12;
+
     // Detach from layout the first time so it can roam freely.
     if (!noBtn.classList.contains("loose")) {
       const rect = noBtn.getBoundingClientRect();
       noBtn.classList.add("loose");
       noBtn.style.top = rect.top + "px";
       noBtn.style.left = rect.left + "px";
-      // force reflow so the transition applies on the next move
-      void noBtn.offsetWidth;
+      void noBtn.offsetWidth; // reflow so the next move animates
     }
 
+    // getBoundingClientRect reflects the current (scaled) size, so the
+    // clamp below keeps the whole button inside the visible viewport.
     const rect = noBtn.getBoundingClientRect();
-    const pad = 8;
-    const maxLeft = Math.max(pad, window.innerWidth - rect.width - pad);
-    const maxTop = Math.max(pad, window.innerHeight - rect.height - pad);
+    const maxLeft = Math.max(pad, vw - rect.width - pad);
+    const maxTop = Math.max(pad, vh - rect.height - pad);
     const left = pad + Math.random() * (maxLeft - pad);
     const top = pad + Math.random() * (maxTop - pad);
 
@@ -41,15 +46,16 @@
 
   function poof() {
     noBtn.classList.add("poof");
-    noBtn.addEventListener(
-      "animationend",
-      () => noBtn.remove(),
-      { once: true }
-    );
+    noBtn.addEventListener("animationend", () => noBtn.remove(), { once: true });
   }
 
   function onNo(e) {
     e.preventDefault();
+    // Ignore the click that iOS fires right after a touchstart.
+    const now = Date.now();
+    if (now - lastHit < 400) return;
+    lastHit = now;
+
     scale *= SHRINK;
     noBtn.style.transform = "scale(" + scale + ")";
 
@@ -60,9 +66,12 @@
     dodge();
   }
 
-  // Pointer + touch so it dodges reliably on iPhone Safari.
   noBtn.addEventListener("click", onNo);
   noBtn.addEventListener("touchstart", onNo, { passive: false });
+  // On desktop, also dart away when the cursor gets close — extra cheeky.
+  noBtn.addEventListener("mouseenter", () => {
+    if (noBtn.classList.contains("loose") && scale > MIN_SCALE) dodge();
+  });
 
   function celebrate() {
     result.hidden = false;

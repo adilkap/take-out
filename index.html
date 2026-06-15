@@ -24,11 +24,83 @@
   <main class="card">
     <!-- Hugging bears + heart -->
     <div class="bears" aria-hidden="true">
-      <span class="heart">💗</span>
-      <div class="bear-row">
-        <span class="bear bear-left">🐻</span>
-        <span class="bear bear-right">🐻</span>
-      </div>
+      <svg class="bears-svg" viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg" role="img">
+        <defs>
+          <radialGradient id="cheek" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ff9db4" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#ff9db4" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- soft shadow -->
+        <ellipse cx="140" cy="222" rx="92" ry="13" fill="#000" opacity="0.07"/>
+
+        <g class="hug">
+          <!-- ===== LEFT BEAR ===== -->
+          <g class="bear-l">
+            <ellipse cx="98" cy="168" rx="46" ry="48" fill="#c98a5e"/>
+            <ellipse cx="98" cy="176" rx="27" ry="31" fill="#f4ddc3"/>
+            <!-- legs -->
+            <ellipse cx="80" cy="208" rx="16" ry="11" fill="#bb7c50"/>
+            <ellipse cx="118" cy="208" rx="16" ry="11" fill="#bb7c50"/>
+            <ellipse cx="80" cy="208" rx="8" ry="5.5" fill="#f4ddc3"/>
+            <ellipse cx="118" cy="208" rx="8" ry="5.5" fill="#f4ddc3"/>
+            <!-- ears -->
+            <circle cx="74" cy="74" r="15" fill="#c98a5e"/>
+            <circle cx="120" cy="74" r="15" fill="#c98a5e"/>
+            <circle cx="74" cy="74" r="7" fill="#f2a9bb"/>
+            <circle cx="120" cy="74" r="7" fill="#f2a9bb"/>
+            <!-- head -->
+            <circle cx="97" cy="100" r="38" fill="#c98a5e"/>
+            <ellipse cx="97" cy="112" rx="19" ry="15" fill="#f4ddc3"/>
+            <!-- cheeks -->
+            <circle cx="74" cy="110" r="9" fill="url(#cheek)"/>
+            <circle cx="120" cy="110" r="9" fill="url(#cheek)"/>
+            <!-- eyes + nose + smile -->
+            <circle cx="85" cy="95" r="4.2" fill="#4d3324"/>
+            <circle cx="109" cy="95" r="4.2" fill="#4d3324"/>
+            <circle cx="86.5" cy="93.5" r="1.3" fill="#fff"/>
+            <circle cx="110.5" cy="93.5" r="1.3" fill="#fff"/>
+            <ellipse cx="97" cy="105" rx="5.5" ry="4" fill="#5a3825"/>
+            <path d="M97 109 q-7 7 -13 2 M97 109 q7 7 13 2" stroke="#5a3825" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- ===== RIGHT BEAR ===== -->
+          <g class="bear-r">
+            <ellipse cx="182" cy="168" rx="46" ry="48" fill="#b87a4e"/>
+            <ellipse cx="182" cy="176" rx="27" ry="31" fill="#efd4b6"/>
+            <ellipse cx="200" cy="208" rx="16" ry="11" fill="#a86d44"/>
+            <ellipse cx="162" cy="208" rx="16" ry="11" fill="#a86d44"/>
+            <ellipse cx="200" cy="208" rx="8" ry="5.5" fill="#efd4b6"/>
+            <ellipse cx="162" cy="208" rx="8" ry="5.5" fill="#efd4b6"/>
+            <circle cx="206" cy="74" r="15" fill="#b87a4e"/>
+            <circle cx="160" cy="74" r="15" fill="#b87a4e"/>
+            <circle cx="206" cy="74" r="7" fill="#f2a9bb"/>
+            <circle cx="160" cy="74" r="7" fill="#f2a9bb"/>
+            <circle cx="183" cy="100" r="38" fill="#b87a4e"/>
+            <ellipse cx="183" cy="112" rx="19" ry="15" fill="#efd4b6"/>
+            <circle cx="160" cy="110" r="9" fill="url(#cheek)"/>
+            <circle cx="206" cy="110" r="9" fill="url(#cheek)"/>
+            <circle cx="171" cy="95" r="4.2" fill="#4d3324"/>
+            <circle cx="195" cy="95" r="4.2" fill="#4d3324"/>
+            <circle cx="172.5" cy="93.5" r="1.3" fill="#fff"/>
+            <circle cx="196.5" cy="93.5" r="1.3" fill="#fff"/>
+            <ellipse cx="183" cy="105" rx="5.5" ry="4" fill="#5a3825"/>
+            <path d="M183 109 q-7 7 -13 2 M183 109 q7 7 13 2" stroke="#5a3825" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+
+          <!-- ===== HUGGING ARMS (front, crossing the middle) ===== -->
+          <g>
+            <ellipse cx="148" cy="150" rx="30" ry="13" fill="#bb7c50" transform="rotate(20 148 150)"/>
+            <circle cx="170" cy="160" r="11" fill="#f4ddc3"/>
+            <ellipse cx="132" cy="166" rx="30" ry="13" fill="#a86d44" transform="rotate(-20 132 166)"/>
+            <circle cx="110" cy="176" r="11" fill="#efd4b6"/>
+          </g>
+        </g>
+
+        <!-- heart -->
+        <path class="heart-svg" transform="translate(140 30)" d="M0 9 C-7 -4 -24 1 -24 13 C-24 26 -7 36 0 42 C7 36 24 26 24 13 C24 1 7 -4 0 9 Z" fill="#ff7fa3"/>
+      </svg>
     </div>
 
     <h1 id="question" class="question">Amna, can I take you out tonight?</h1>

@@ -53,59 +53,40 @@ body {
 /* Bears + heart */
 .bears {
   position: relative;
-  height: 130px;
-  margin-bottom: 8px;
+  margin: 0 auto 4px;
+  width: 100%;
+  max-width: 280px;
 }
 
-.heart {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 38px;
+.bears-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 12px 18px rgba(180, 110, 90, 0.18));
+}
+
+/* whole hug gently sways */
+.hug {
+  transform-origin: 140px 200px;
+  animation: sway 3.4s ease-in-out infinite;
+}
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* heart beats above them */
+.heart-svg {
+  transform-box: fill-box;
+  transform-origin: center;
   animation: heartbeat 1.3s ease-in-out infinite;
-  filter: drop-shadow(0 4px 8px rgba(255, 120, 160, 0.4));
-}
-
-.bear-row {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  font-size: 72px;
-  line-height: 1;
-}
-
-.bear {
-  display: inline-block;
-  animation: hug 2.6s ease-in-out infinite;
-}
-
-.bear-left {
-  transform-origin: bottom right;
-  margin-right: -16px;
-}
-
-.bear-right {
-  transform-origin: bottom left;
-  margin-left: -16px;
-  transform: scaleX(-1);
-  animation-name: hug-right;
-}
-
-@keyframes hug {
-  0%, 100% { transform: translateX(0) rotate(-4deg); }
-  50% { transform: translateX(6px) rotate(2deg); }
-}
-@keyframes hug-right {
-  0%, 100% { transform: scaleX(-1) translateX(0) rotate(-4deg); }
-  50% { transform: scaleX(-1) translateX(6px) rotate(2deg); }
+  filter: drop-shadow(0 3px 5px rgba(255, 120, 160, 0.45));
 }
 @keyframes heartbeat {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  25% { transform: translateX(-50%) scale(1.22); }
-  50% { transform: translateX(-50%) scale(0.96); }
+  0%, 100% { transform: translate(140px, 30px) scale(1); }
+  25% { transform: translate(140px, 30px) scale(1.2); }
+  50% { transform: translate(140px, 30px) scale(0.94); }
 }
 
 .question {
@@ -181,5 +162,5 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bear, .heart { animation: none; }
+  .hug, .heart-svg { animation: none; }
 }
