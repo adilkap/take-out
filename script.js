@@ -3,6 +3,7 @@
   const yesBtn = document.getElementById("yes");
   const result = document.getElementById("result");
   const question = document.getElementById("question");
+  const card = document.querySelector(".card");
 
   // Names come from config.js (falls back to defaults if missing).
   const cfg = typeof CONFIG === "object" && CONFIG ? CONFIG : {};
@@ -17,26 +18,29 @@
   const MIN_SCALE = 0.30; // below this -> poof (takes ~6 taps)
   let lastHit = 0; // de-dupe touchstart + the click it also fires
 
-  // Move the No button to a random spot fully inside the viewport.
-  // With transform-origin:top-left (set in CSS when .loose), the element's
-  // left/top equal its visible top-left, so we clamp using the scaled size.
+  // Move the No button to a random spot, kept fully inside the white card.
+  // The button is absolutely positioned within .card, so coordinates are
+  // card-local (0,0 = card's inner top-left). transform-origin:top-left
+  // means left/top match the visible box, so we clamp with the scaled size.
   function dodge() {
-    const pad = 12;
+    const pad = 10;
 
     if (!noBtn.classList.contains("loose")) {
-      const rect = noBtn.getBoundingClientRect();
+      // Pin it at its current spot (relative to the card) before it roams.
+      const startLeft = noBtn.offsetLeft;
+      const startTop = noBtn.offsetTop;
       noBtn.classList.add("loose");
-      noBtn.style.left = rect.left + "px";
-      noBtn.style.top = rect.top + "px";
+      noBtn.style.left = startLeft + "px";
+      noBtn.style.top = startTop + "px";
       void noBtn.offsetWidth; // reflow so the next move animates
     }
 
     const w = noBtn.offsetWidth * scale;
     const h = noBtn.offsetHeight * scale;
-    const maxLeft = Math.max(pad, window.innerWidth - w - pad);
-    const maxTop = Math.max(pad, window.innerHeight - h - pad);
-    const left = Math.min(maxLeft, pad + Math.random() * (maxLeft - pad));
-    const top = Math.min(maxTop, pad + Math.random() * (maxTop - pad));
+    const maxLeft = Math.max(pad, card.clientWidth - w - pad);
+    const maxTop = Math.max(pad, card.clientHeight - h - pad);
+    const left = pad + Math.random() * (maxLeft - pad);
+    const top = pad + Math.random() * (maxTop - pad);
 
     noBtn.style.left = left + "px";
     noBtn.style.top = top + "px";
@@ -45,20 +49,22 @@
   function showResult(text) {
     result.textContent = text;
     result.hidden = false;
-    requestAnimationFrame(() => result.classList.add("show"));
+    result.classList.add("show");
   }
 
   function poof() {
     noBtn.classList.add("poof");
-    noBtn.addEventListener(
-      "animationend",
-      () => {
-        noBtn.remove();
-        // Cheeky placeholder until she says yes.
-        if (!result.classList.contains("show")) showResult("hehe");
-      },
-      { once: true }
-    );
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      noBtn.remove();
+      // Cheeky placeholder until she says yes.
+      if (!result.classList.contains("show")) showResult("hehe");
+    };
+    // animationend normally fires; the timeout guarantees it even if not.
+    noBtn.addEventListener("animationend", finish, { once: true });
+    setTimeout(finish, 600);
   }
 
   function onNo(e) {

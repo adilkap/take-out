@@ -130,10 +130,11 @@ body {
   transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), top 0.25s ease, left 0.25s ease, opacity 0.25s ease;
 }
 
-/* When the No button starts running, it becomes free-floating.
-   Anchor scaling to the top-left so left/top match the visible box. */
+/* When the No button starts running, it roams inside the card.
+   Absolute (not fixed) because .card's backdrop-filter makes it the
+   containing block; anchor scaling to top-left so left/top match the box. */
 .btn-no.loose {
-  position: fixed;
+  position: absolute;
   margin: 0;
   z-index: 50;
   transform-origin: top left;
