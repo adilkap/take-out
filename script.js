@@ -2,6 +2,15 @@
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
   const result = document.getElementById("result");
+  const question = document.getElementById("question");
+
+  // Names come from config.js (falls back to defaults if missing).
+  const cfg = typeof CONFIG === "object" && CONFIG ? CONFIG : {};
+  const recipientName = cfg.recipientName || "Amna";
+  const askerName = cfg.askerName || "Adil";
+
+  question.textContent = recipientName + ", can I take you out tonight?";
+  result.textContent = askerName + " is a very lucky guy ;)";
 
   let scale = 1;
   const SHRINK = 0.8; // 20% smaller each click
